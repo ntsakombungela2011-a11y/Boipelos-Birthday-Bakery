@@ -1,5 +1,5 @@
 const $ = (s) => document.querySelector(s);
-let stage = 0, score = 0, eggCount = 0, mixActions = 0, cocoaAdded = false, chipsAdded = false, filled = 0, decorations = 0, baked = false, ovenTimer;
+let stage = 0, score = 0, eggCount = 0, mixActions = 0, cocoaAdded = false, chipsAdded = false, filled = 0, decorations = 0, baked = false, ovenTimer;\nlet audioContext = null, soundEnabled = true;
 const collected = new Set();
 const stages = [
   {label:"STAGE 1 OF 5 · PREPARE", number:"01 / PREP", kicker:"FIRST, GATHER YOUR INGREDIENTS", title:"A baker needs supplies.", text:"Collect everything on the recipe card. Tap each ingredient to put it on your counter.", count:"ingredients ready"},
@@ -8,7 +8,7 @@ const stages = [
   {label:"STAGE 4 OF 5 · BAKE", number:"04 / BAKE", kicker:"THE OVEN IS READY", title:"Bake your chocolate muffins.", text:"Slide the tray into the oven and wait for the timer. The kitchen is about to smell incredible.", count:"oven status"},
   {label:"STAGE 5 OF 5 · DECORATE", number:"05 / DECORATE", kicker:"THE BEST PART", title:"Give them a finishing touch.", text:"Choose toppings for your muffins. Add sprinkles, strawberries or extra chocolate. Make them yours!", count:"decorations added"}
 ];
-function toast(message) {
+function sound(type) {\n  if (!soundEnabled) return;\n  const Audio = window.AudioContext || window.webkitAudioContext; if (!Audio) return;\n  if (!audioContext) audioContext = new Audio();\n  if (audioContext.state === "suspended") audioContext.resume();\n  const patterns = {tap:[[520,.07]], collect:[[660,.08],[820,.1]], crack:[[240,.09],[420,.12]], pour:[[360,.08],[290,.1],[430,.12]], whisk:[[320,.06],[390,.06],[470,.06],[560,.06]], ding:[[660,.12],[880,.18],[1046,.28]], decorate:[[740,.08],[990,.14]], win:[[523,.12],[659,.12],[784,.12],[1046,.3]]};\n  let offset = 0; (patterns[type] || patterns.tap).forEach(([freq,duration]) => { const osc=audioContext.createOscillator(), gain=audioContext.createGain(); osc.type=type==="whisk"?"triangle":"sine"; osc.frequency.setValueAtTime(freq,audioContext.currentTime+offset); gain.gain.setValueAtTime(.0001,audioContext.currentTime+offset); gain.gain.exponentialRampToValueAtTime(.07,audioContext.currentTime+offset+.012); gain.gain.exponentialRampToValueAtTime(.0001,audioContext.currentTime+offset+duration); osc.connect(gain);gain.connect(audioContext.destination);osc.start(audioContext.currentTime+offset);osc.stop(audioContext.currentTime+offset+duration+.02);offset+=duration*.72; });\n}\nfunction toast(message) {
   const el = $("#toast"); el.textContent = message; el.classList.add("show");
   clearTimeout(window.bakeryToastTimer);
   window.bakeryToastTimer = setTimeout(() => el.classList.remove("show"), 2100);
@@ -19,14 +19,14 @@ function progress() {
   $("#progressBar").style.width = pct + "%"; $("#progressText").textContent = pct + "%";
   $("#stageLabel").textContent = stages[stage].label; $("#stageNumber").textContent = stages[stage].number; $("#score").textContent = score;
 }
-function taskCount(n, total) { $("#taskCounter").textContent = n + " / " + total + " " + stages[stage].count; }
+function taskCount(n, total) { $("#taskCounter").textContent = n + " / " + total + " " + stages[stage].count;\n  const tips = ["STEP 1: Tap each ingredient button. That is all you need to do.","STEP 2: Tap PICK UP EGG, then tap the big egg/bowl picture. Repeat for egg two. Then add cocoa, add chocolate chips, and whisk.","STEP 3: Tap each of the six muffin cups once. They will fill up.","STEP 4: Tap PUT TRAY IN OVEN and wait for the countdown to finish.","STEP 5: Pick any two decorations. Then press NEXT STEP to finish."];\n  $("#howTo").textContent = tips[stage]; }
 function setScene(icon, caption, hint, extra = "") {
   const el = $("#sceneObject"); el.className = "scene-object " + extra; el.innerHTML = icon;
   $("#sceneCaption").textContent = caption; $("#sceneHint").textContent = hint;
 }
 function actionButton(label, callback) {
   const b = document.createElement("button"); b.className = "game-action"; b.textContent = label;
-  b.addEventListener("click", callback); $("#challengeActions").append(b); return b;
+  b.addEventListener("click", () => { sound("tap"); callback(); }); $("#challengeActions").append(b); return b;
 }
 function unlock(message) {
   $("#gameFeedback").textContent = message; $("#gameFeedback").classList.add("game-feedback-good");
@@ -44,7 +44,7 @@ function setupMixActions() {
   });
   actionButton("🥄 Whisk the batter", () => {
     if (mixActions < 2) { toast("Add cocoa and chocolate first!"); return; }
-    mixActions = 3; score += 8; setScene("🥣", "Whisk, whisk, whisk!", "The batter is thick, glossy and chocolatey.");
+    mixActions = 3; score += 8; setScene("🥣", "Whisk, whisk, whisk!", "The batter is thick, glossy and chocolatey.", "whisking"); sound("whisk");
     taskCount(5, 5); unlock("That batter looks delicious. Beautiful whisking!");
   });
 }
@@ -62,7 +62,7 @@ function render() {
     items.forEach((item, i) => {
       const b = actionButton(item, () => {
         if (collected.has(i)) return;
-        collected.add(i); b.classList.add("done"); b.textContent = "✓ " + item; score += 2;
+        collected.add(i); sound("collect"); b.classList.add("done"); b.textContent = "✓ " + item; score += 2;
         taskCount(collected.size, 6); progress();
         if (collected.size === 6) unlock("Pantry stocked! You are ready to bake.");
       });
@@ -78,7 +78,7 @@ function render() {
           const bowl = $("#sceneObject");
           bowl.onclick = () => {
             if (eggCount >= 2) return;
-            eggCount++; score += 5; bowl.onclick = null; bowl.classList.add("cracked"); bowl.innerHTML = "🥣";
+            eggCount++; score += 5; sound("crack"); bowl.onclick = null; bowl.classList.add("cracked","cracking"); bowl.innerHTML = "🥣";
             taskCount(eggCount + mixActions, 5); $("#gameFeedback").textContent = "Crack! Egg " + eggCount + " is in the bowl.";
             progress();
             if (eggCount === 2) {
@@ -100,7 +100,7 @@ function render() {
       cup.textContent = i < filled ? "🧁" : "＋"; cup.setAttribute("aria-label", "Muffin cup " + (i + 1));
       cup.addEventListener("click", () => {
         if (cup.classList.contains("filled")) return;
-        cup.classList.add("filled"); cup.textContent = "🧁"; filled++; score += 3; taskCount(filled, 6);
+        cup.classList.add("filled"); cup.textContent = "🧁"; sound("pour"); setScene("🥣", "Scoop… plop!", "Nice work. Fill the next cup.", "pouring"); filled++; score += 3; taskCount(filled, 6);
         if (filled === 6) unlock("Six cups filled. Not a single muffin left behind."); progress();
       });
       tray.append(cup);
@@ -113,11 +113,11 @@ function render() {
       if (baked) return;
       const b = $("#challengeActions button"); b.disabled = true; let seconds = 8;
       b.textContent = "Baking… " + seconds + "s"; $("#gameFeedback").textContent = "The oven is doing its thing…";
-      setScene("🔥", "Baking…", "A little patience, head baker.");
+      setScene("🔥", "Baking…", "A little patience, head baker.", "baking");
       ovenTimer = setInterval(() => {
         seconds--; b.textContent = "Baking… " + seconds + "s";
         if (seconds <= 0) {
-          clearInterval(ovenTimer); baked = true; b.textContent = "✓ Fresh from the oven"; b.classList.add("done");
+          clearInterval(ovenTimer); baked = true; sound("ding"); b.textContent = "✓ Fresh from the oven"; b.classList.add("done");
           setScene("🧁", "DING! They are ready!", "Golden tops and melted chocolate.");
           taskCount(1, 1); unlock("DING! Six chocolate muffins, baked by you.");
         }
@@ -129,7 +129,7 @@ function render() {
     ["🍫 Add chocolate drizzle","🍓 Add strawberries","✨ Add sprinkles","💗 Add hearts"].forEach((item, i) => {
       actionButton(item, () => {
         if (decorations >= 2) { toast("Your muffins are already gorgeous!"); return; }
-        decorations++; score += 5;
+        decorations++; score += 5; sound("decorate");
         setScene(["🧁🍫","🧁🍓","🧁✨","🧁💗"][i], "A little decoration magic.", "Choose one more finishing touch!");
         taskCount(decorations, 2);
         if (decorations >= 2) unlock("Your chocolate muffins are officially bakery-worthy!");
@@ -154,7 +154,7 @@ function renderEggButtons() {
   });
 }
 $("#nextStage").addEventListener("click", () => {
-  if (stage < 4) { stage++; render(); $("#game").scrollIntoView({behavior:"smooth", block:"start"}); }
+  if (stage < 4) { stage++; render();\nconst soundButton = $("#soundToggle");\nsoundButton.addEventListener("click", () => { soundEnabled = !soundEnabled; soundButton.textContent = soundEnabled ? "🔊 Sound on" : "🔇 Sound off"; soundButton.setAttribute("aria-pressed", String(soundEnabled)); if (soundEnabled) sound("ding"); }); $("#game").scrollIntoView({behavior:"smooth", block:"start"}); }
   else if (decorations >= 2) finish();
 });
 function confetti() {
@@ -168,7 +168,7 @@ function confetti() {
 }
 function finish() {
   if (stage !== 4 || decorations < 2) return;
-  $("#birthdayReveal").hidden = false; confetti(); $("#birthdayReveal").scrollIntoView({behavior:"smooth"});
+  $("#birthdayReveal").hidden = false; sound("win"); confetti(); $("#birthdayReveal").scrollIntoView({behavior:"smooth"});
   toast("You baked your own birthday muffins! 🧁");
 }
 $("#openNote").addEventListener("click", () => { $("#littleNote").classList.add("open"); $("#littleNote").scrollIntoView({behavior:"smooth"}); });
