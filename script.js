@@ -201,7 +201,7 @@ soundButton.addEventListener("click", () => {
 
 const birthdayWishes = {
  sweet:["Wishing you a day full of cake, laughter and all your favourite things.","May this year be gentle with you and generous with its happiest moments.","I hope today gives you a hundred little reasons to smile."],
- funny:["Happy birthday! Your cake has zero calories today. I checked. Trust me.","Congratulations on levelling up. No patch notes, just more cake.","Today you are legally allowed to be the main character. Act accordingly."],
+ funny:["Happy womb escape day Sharon 😝 look at youuuuu from a little sperm to a Dinosaur awwww so cute","Congratulations on levelling up. No patch notes, just more cake.","Today you are legally allowed to be the main character. Act accordingly."],
  big:["May the dreams you keep quietly in your heart find their way into real life.","I hope this year brings you good people, brave moments and memories worth keeping.","May you keep growing into the person you want to be, at your own pace."],
  fromme:["Happy birthday, Boipelo. I'm really glad the world got you, and even gladder I get to know you.","I hope I get to celebrate many more of your birthdays with you. You deserve to feel loved today and every day.","You make ordinary days feel a little less ordinary. Today, I hope the whole day feels special. Love, Ntsako."]
 };
