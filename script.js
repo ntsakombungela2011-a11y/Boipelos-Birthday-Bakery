@@ -165,23 +165,15 @@ function renderEggButtons() {
   });
 }
 $("#nextStage").addEventListener("click", () => {
-  if (stage < 4) { stage++; render();
-
-const birthdayWishes = {
- sweet:["Wishing you a day full of cake, laughter and all your favourite things.","May this year be gentle with you and generous with its happiest moments.","I hope today gives you a hundred little reasons to smile."],
- funny:["Happy birthday! Your cake has zero calories today. I checked. Trust me.","Congratulations on levelling up. No patch notes, just more cake.","Today you are legally allowed to be the main character. Act accordingly."],
- big:["May the dreams you keep quietly in your heart find their way into real life.","I hope this year brings you good people, brave moments and memories worth keeping.","May you keep growing into the person you want to be, at your own pace."],
- fromme:["Happy birthday, Boipelo. I'm really glad the world got you, and even gladder I get to know you.","I hope I get to celebrate many more of your birthdays with you. You deserve to feel loved today and every day.","You make ordinary days feel a little less ordinary. Today, I hope the whole day feels special. Love, Ntsako."]
-};
-let wishCategory="sweet",wishIndex=0;
-function showWish(category=wishCategory,next=false){wishCategory=category;const messages=birthdayWishes[category];if(next)wishIndex=(wishIndex+1)%messages.length;else wishIndex=0;$("#wishMessage").textContent=messages[wishIndex];$("#wishCounter").textContent=String(wishIndex+1).padStart(2,"0")+" / "+String(messages.length).padStart(2,"0");document.querySelectorAll(".wish-button").forEach(button=>button.classList.toggle("active",button.dataset.wish===category));}
-document.querySelectorAll(".wish-button").forEach(button=>button.addEventListener("click",()=>showWish(button.dataset.wish)));
-$("#nextWish").addEventListener("click",()=>showWish(wishCategory,true));
-
-const soundButton = $("#soundToggle");
-soundButton.addEventListener("click", () => { soundEnabled = !soundEnabled; soundButton.textContent = soundEnabled ? "🔊 Sound on" : "🔇 Sound off"; soundButton.setAttribute("aria-pressed", String(soundEnabled)); if (soundEnabled) sound("ding"); }); $("#game").scrollIntoView({behavior:"smooth", block:"start"}); }
-  else if (decorations >= 2) finish();
+  if (stage < 4) {
+    stage++;
+    render();
+    $("#game").scrollIntoView({behavior:"smooth", block:"start"});
+  } else if (decorations >= 2) {
+    finish();
+  }
 });
+
 function confetti() {
   const layer = $("#confettiLayer"); layer.innerHTML = "";
   const colors = ["#d77d91","#f1c47e","#fff4e7","#9eae91","#b9a5d4"];
@@ -199,5 +191,29 @@ function finish() {
 $("#openNote").addEventListener("click", () => { $("#littleNote").classList.add("open"); $("#littleNote").scrollIntoView({behavior:"smooth"}); });
 $("#closeNote").addEventListener("click", () => { $("#littleNote").classList.remove("open"); $("#birthdayReveal").scrollIntoView({behavior:"smooth"}); });
 render();
-const soundButton = $("#soundToggle");
-soundButton.addEventListener("click", () => { soundEnabled = !soundEnabled; soundButton.textContent = soundEnabled ? "🔊 Sound on" : "🔇 Sound off"; soundButton.setAttribute("aria-pressed", String(soundEnabled)); if (soundEnabled) sound("ding"); });
+const birthdayWishes = {
+ sweet:["Wishing you a day full of cake, laughter and all your favourite things.","May this year be gentle with you and generous with its happiest moments.","I hope today gives you a hundred little reasons to smile."],
+ funny:["Happy birthday! Your cake has zero calories today. I checked. Trust me.","Congratulations on levelling up. No patch notes, just more cake.","Today you are legally allowed to be the main character. Act accordingly."],
+ big:["May the dreams you keep quietly in your heart find their way into real life.","I hope this year brings you good people, brave moments and memories worth keeping.","May you keep growing into the person you want to be, at your own pace."],
+ fromme:["Happy birthday, Boipelo. I'm really glad the world got you, and even gladder I get to know you.","I hope I get to celebrate many more of your birthdays with you. You deserve to feel loved today and every day.","You make ordinary days feel a little less ordinary. Today, I hope the whole day feels special. Love, Ntsako."]
+};
+let wishCategory="sweet",wishIndex=0;
+function showWish(category=wishCategory,next=false){wishCategory=category;const messages=birthdayWishes[category];if(next)wishIndex=(wishIndex+1)%messages.length;else wishIndex=0;$("#wishMessage").textContent=messages[wishIndex];$("#wishCounter").textContent=String(wishIndex+1).padStart(2,"0")+" / "+String(messages.length).padStart(2,"0");document.querySelectorAll(".wish-button").forEach(button=>button.classList.toggle("active",button.dataset.wish===category));}
+document.querySelectorAll(".wish-button").forEach(button=>button.addEventListener("click",()=>showWish(button.dataset.wish)));
+$("#nextWish").addEventListener("click",()=>showWish(wishCategory,true));
+
+
+
+document.querySelectorAll(".letter-drawer").forEach(drawer=>{
+ const front=drawer.querySelector(".drawer-front"),inside=drawer.querySelector(".drawer-inside"),envelope=drawer.querySelector(".letter-envelope"),paper=drawer.querySelector(".letter-paper");
+ front.addEventListener("click",()=>{
+  const opening=front.getAttribute("aria-expanded")!=="true";
+  document.querySelectorAll(".letter-drawer").forEach(other=>{if(other!==drawer){other.querySelector(".drawer-front").setAttribute("aria-expanded","false");other.querySelector(".drawer-inside").hidden=true;}});
+  front.setAttribute("aria-expanded",String(opening));inside.hidden=!opening;
+  if(!opening){envelope.setAttribute("aria-expanded","false");paper.hidden=true;}else sound("collect");
+ });
+ envelope.addEventListener("click",()=>{
+  const opening=envelope.getAttribute("aria-expanded")!=="true";envelope.setAttribute("aria-expanded",String(opening));paper.hidden=!opening;
+  if(opening){sound("ding");setTimeout(()=>paper.scrollIntoView({behavior:"smooth",block:"nearest"}),120);}
+ });
+});
