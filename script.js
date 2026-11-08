@@ -1,5 +1,5 @@
 const $ = (s) => document.querySelector(s);
-let stage = 0, score = 0, eggCount = 0, mixActions = 0, filled = 0, decorations = 0, baked = false, ovenTimer;
+let stage = 0, score = 0, eggCount = 0, mixActions = 0, cocoaAdded = false, chipsAdded = false, filled = 0, decorations = 0, baked = false, ovenTimer;
 const collected = new Set();
 const stages = [
   {label:"STAGE 1 OF 5 · PREPARE", number:"01 / PREP", kicker:"FIRST, GATHER YOUR INGREDIENTS", title:"A baker needs supplies.", text:"Collect everything on the recipe card. Tap each ingredient to put it on your counter.", count:"ingredients ready"},
@@ -35,12 +35,12 @@ function unlock(message) {
 function setupMixActions() {
   $("#challengeActions").innerHTML = "";
   actionButton("🍫 Add cocoa powder", () => {
-    if (mixActions >= 1) return;
-    mixActions++; score += 3; taskCount(eggCount + mixActions, 5); toast("Cocoa clouds everywhere!"); progress(); checkMix();
+    if (cocoaAdded) return;
+    cocoaAdded = true; mixActions++; score += 3; taskCount(eggCount + mixActions, 5); toast("Cocoa clouds everywhere!"); progress(); checkMix();
   });
   actionButton("🍫 Add chocolate chips", () => {
-    if (mixActions >= 2) return;
-    mixActions++; score += 3; taskCount(eggCount + mixActions, 5); toast("Extra chocolate. Correct decision."); progress(); checkMix();
+    if (chipsAdded) return;
+    chipsAdded = true; mixActions++; score += 3; taskCount(eggCount + mixActions, 5); toast("Extra chocolate. Correct decision."); progress(); checkMix();
   });
   actionButton("🥄 Whisk the batter", () => {
     if (mixActions < 2) { toast("Add cocoa and chocolate first!"); return; }
