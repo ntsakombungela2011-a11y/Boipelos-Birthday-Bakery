@@ -166,6 +166,18 @@ function renderEggButtons() {
 }
 $("#nextStage").addEventListener("click", () => {
   if (stage < 4) { stage++; render();
+
+const birthdayWishes = {
+ sweet:["Wishing you a day full of cake, laughter and all your favourite things.","May this year be gentle with you and generous with its happiest moments.","I hope today gives you a hundred little reasons to smile."],
+ funny:["Happy birthday! Your cake has zero calories today. I checked. Trust me.","Congratulations on levelling up. No patch notes, just more cake.","Today you are legally allowed to be the main character. Act accordingly."],
+ big:["May the dreams you keep quietly in your heart find their way into real life.","I hope this year brings you good people, brave moments and memories worth keeping.","May you keep growing into the person you want to be, at your own pace."],
+ fromme:["Happy birthday, Boipelo. I'm really glad the world got you, and even gladder I get to know you.","I hope I get to celebrate many more of your birthdays with you. You deserve to feel loved today and every day.","You make ordinary days feel a little less ordinary. Today, I hope the whole day feels special. Love, Ntsako."]
+};
+let wishCategory="sweet",wishIndex=0;
+function showWish(category=wishCategory,next=false){wishCategory=category;const messages=birthdayWishes[category];if(next)wishIndex=(wishIndex+1)%messages.length;else wishIndex=0;$("#wishMessage").textContent=messages[wishIndex];$("#wishCounter").textContent=String(wishIndex+1).padStart(2,"0")+" / "+String(messages.length).padStart(2,"0");document.querySelectorAll(".wish-button").forEach(button=>button.classList.toggle("active",button.dataset.wish===category));}
+document.querySelectorAll(".wish-button").forEach(button=>button.addEventListener("click",()=>showWish(button.dataset.wish)));
+$("#nextWish").addEventListener("click",()=>showWish(wishCategory,true));
+
 const soundButton = $("#soundToggle");
 soundButton.addEventListener("click", () => { soundEnabled = !soundEnabled; soundButton.textContent = soundEnabled ? "🔊 Sound on" : "🔇 Sound off"; soundButton.setAttribute("aria-pressed", String(soundEnabled)); if (soundEnabled) sound("ding"); }); $("#game").scrollIntoView({behavior:"smooth", block:"start"}); }
   else if (decorations >= 2) finish();
