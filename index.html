@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff5ed">
+  <meta name="description" content="A little birthday bakery made with love for Boipelo.">
+  <title>The Birthday Bakehouse · Boipelo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar">
+    <a class="brand" href="#home"><span class="brand-mark">♡</span> the birthday bakehouse</a>
+    <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false">♫ <span>Sound off</span></button>
+  </header>
+
+  <main>
+    <section class="hero section" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> A little something, freshly baked</p>
+        <h1>Welcome to<br><em>Boipelo's</em> bakery.</h1>
+        <p class="hero-intro">Today, the sweetest person gets to be the head baker. Apron on, pretty girl. We've got a birthday to make. 🍓</p>
+        <a class="primary-btn" href="#bake">Let's bake something <span>↗</span></a>
+        <p class="tiny-note">Made from scratch, with an unreasonable amount of love.</p>
+      </div>
+      <div class="hero-art" aria-label="Illustration of a pink birthday cake with strawberries">
+        <div class="sun-disc"></div><span class="float-star star-one">✳</span><span class="float-star star-two">✧</span>
+        <div class="cake-plate"></div>
+        <div class="cake cake-bottom"><i></i><i></i><i></i></div>
+        <div class="cake cake-top"><i></i><i></i></div>
+        <div class="icing-drip"></div>
+        <div class="cake-topper">♡</div>
+        <div class="berry berry-a">🍓</div><div class="berry berry-b">🍓</div>
+        <span class="art-caption">one of a kind</span>
+      </div>
+      <a class="scroll-cue" href="#counter">SCROLL TO THE GOOD STUFF <span>↓</span></a>
+    </section>
+
+    <section class="welcome-strip" id="counter">
+      <span>FRESHLY BAKED</span><b>✳</b><span>EXTRA SWEET</span><b>✳</b><span>JUST FOR YOU</span><b>✳</b><span>FRESHLY BAKED</span>
+    </section>
+
+    <section class="section counter-section" id="bake">
+      <div class="section-heading">
+        <p class="eyebrow">01 / THE KITCHEN IS YOURS</p>
+        <h2>First, let's make<br><em>the batter.</em></h2>
+        <p>Every good cake starts with the right ingredients. Tap each one to add it to your mixing bowl.</p>
+      </div>
+      <div class="baking-layout">
+        <div class="ingredient-panel">
+          <div class="panel-top"><span>THE PANTRY</span><span id="ingredientCount">0 / 5 added</span></div>
+          <div class="ingredients" id="ingredients">
+            <button class="ingredient" data-item="flour"><span class="ingredient-emoji">🌾</span><span><b>Flour</b><small>the soft beginning</small></span><i>＋</i></button>
+            <button class="ingredient" data-item="sugar"><span class="ingredient-emoji">🍚</span><span><b>Sugar</b><small>a little sweetness</small></span><i>＋</i></button>
+            <button class="ingredient" data-item="eggs"><span class="ingredient-emoji">🥚</span><span><b>Two eggs</b><small>to hold it together</small></span><i>＋</i></button>
+            <button class="ingredient" data-item="butter"><span class="ingredient-emoji">🧈</span><span><b>Butter</b><small>because obviously</small></span><i>＋</i></button>
+            <button class="ingredient" data-item="love"><span class="ingredient-emoji">💗</span><span><b>A whole lot of love</b><small>the secret ingredient</small></span><i>＋</i></button>
+          </div>
+          <p class="hint" id="mixHint">Your bowl is waiting. Add all five ingredients.</p>
+        </div>
+        <div class="bowl-area">
+          <div class="bowl" id="mixingBowl"><div class="batter" id="batter"></div><div class="bowl-rim"></div></div>
+          <div class="bowl-shadow"></div>
+          <p class="bowl-label">BOIPELO'S SPECIAL RECIPE</p>
+          <button class="primary-btn mix-btn" id="mixButton" disabled>Mix the batter <span>↗</span></button>
+          <p class="mix-feedback" id="mixFeedback" aria-live="polite">Add your ingredients first.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="oven-section section">
+      <div class="oven-copy">
+        <p class="eyebrow">02 / A LITTLE PATIENCE</p>
+        <h2>Into the oven<br>it <em>goes.</em></h2>
+        <p>Good things take time. Your cake needs a tiny moment to bake. Press the button and keep it company.</p>
+        <button class="light-btn" id="bakeButton" disabled>Put my cake in the oven</button>
+        <p class="oven-status" id="ovenStatus">The oven is waiting for your batter.</p>
+      </div>
+      <div class="oven-art">
+        <div class="oven-top"><span></span><span></span><span></span></div>
+        <div class="oven-door"><div class="oven-window"><div class="oven-cake">🎂</div><div class="heat-line"></div><div class="heat-line"></div></div><div class="oven-handle"></div></div>
+        <span class="oven-spark">✦</span>
+      </div>
+    </section>
+
+    <section class="section decorate-section" id="decorate">
+      <div class="section-heading centered">
+        <p class="eyebrow">03 / THE FUN PART</p>
+        <h2>Make it <em>pretty.</em></h2>
+        <p>It's your cake, your rules. Pick the frosting, add toppings, and make a masterpiece.</p>
+      </div>
+      <div class="decorate-layout">
+        <div class="cake-preview-wrap">
+          <div class="cake-preview" id="cakePreview">
+            <div class="candle-row" id="candleRow"><span>🕯️</span><span>🕯️</span><span>🕯️</span></div>
+            <div class="preview-top"></div><div class="preview-body"><div class="drip drip-one"></div><div class="drip drip-two"></div><div class="drip drip-three"></div><div class="sprinkles" id="sprinkles"></div></div>
+            <div class="preview-plate"></div>
+          </div>
+          <p class="cake-caption">A cake as lovely as its baker.</p>
+        </div>
+        <div class="decorate-controls">
+          <div class="control-group"><h3>01. Choose your frosting</h3><div class="swatches">
+            <button class="swatch active" data-color="#e9a8b9" style="--swatch:#e9a8b9" aria-label="Strawberry pink"></button>
+            <button class="swatch" data-color="#f2d7a0" style="--swatch:#f2d7a0" aria-label="Vanilla cream"></button>
+            <button class="swatch" data-color="#b7c9ad" style="--swatch:#b7c9ad" aria-label="Pistachio green"></button>
+            <button class="swatch" data-color="#b9a5d4" style="--swatch:#b9a5d4" aria-label="Lavender"></button>
+            <button class="swatch" data-color="#9bbbd0" style="--swatch:#9bbbd0" aria-label="Blueberry"></button>
+          </div></div>
+          <div class="control-group"><h3>02. Add a topping</h3><div class="topping-options">
+            <button class="topping" data-topping="🍓">🍓 <span>Strawberries</span></button><button class="topping" data-topping="🍒">🍒 <span>Cherries</span></button><button class="topping" data-topping="✨">✨ <span>Stardust</span></button><button class="topping" data-topping="💗">💗 <span>Hearts</span></button>
+          </div></div>
+          <div class="control-group"><h3>03. Add the finishing touch</h3><button class="candle-btn" id="candleButton">＋ Add a candle</button><button class="reset-btn" id="resetCake">Start decorating again ↻</button></div>
+          <button class="primary-btn reveal-btn" id="revealButton" disabled>Present my cake <span>↗</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="birthday-reveal" id="birthdayReveal" hidden>
+      <div class="reveal-inner"><p class="eyebrow">MADE BY THE HEAD BAKER</p><div class="big-cake">🎂</div><h2>Happy birthday,<br><em>Boipelo!</em></h2><p class="reveal-message">If I could bake you a thousand cakes, I'd still never make one as sweet as you. I hope today gives you a million little reasons to smile. You deserve all the lovely things. 💗</p><button class="primary-btn" id="openNote">There's a little note for you <span>♡</span></button></div>
+        <div class="confetti-layer" id="confettiLayer"></div>
+    </section>
+
+    <section class="note-section section" id="littleNote">
+      <div class="note-card"><span class="note-stamp">SEALED WITH LOVE ♡</span><p class="eyebrow">A NOTE FROM YOUR FAVOURITE PERSON</p><h2>To my favourite<br><em>girl.</em></h2><p>Boipelo, I hope you never forget how special you are. Keep being your funny, clever, wonderfully weird self. The world is a little brighter with you in it, and I'm grateful I get to be one of the people who sees that. I hope this new chapter is full of soft days, big laughs, answered prayers and everything your heart has been wishing for.</p><p class="note-signoff">I love you endlessly ~ Ntsako <span>♡</span></p><button class="text-btn" id="closeNote">Fold this note away ↑</button></div>
+    </section>
+  </main>
+  <footer><span>THE BIRTHDAY BAKEHOUSE</span><span>BAKED WITH LOVE FOR BOIPELO · 2026</span><a href="#home">BACK TO THE TOP ↑</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
