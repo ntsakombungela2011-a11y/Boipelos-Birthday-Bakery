@@ -191,6 +191,14 @@ function finish() {
 $("#openNote").addEventListener("click", () => { $("#littleNote").classList.add("open"); $("#littleNote").scrollIntoView({behavior:"smooth"}); });
 $("#closeNote").addEventListener("click", () => { $("#littleNote").classList.remove("open"); $("#birthdayReveal").scrollIntoView({behavior:"smooth"}); });
 render();
+const soundButton = $("#soundToggle");
+soundButton.addEventListener("click", () => {
+  soundEnabled = !soundEnabled;
+  soundButton.textContent = soundEnabled ? "🔊 Sound on" : "🔇 Sound off";
+  soundButton.setAttribute("aria-pressed", String(soundEnabled));
+  if (soundEnabled) sound("ding");
+});
+
 const birthdayWishes = {
  sweet:["Wishing you a day full of cake, laughter and all your favourite things.","May this year be gentle with you and generous with its happiest moments.","I hope today gives you a hundred little reasons to smile."],
  funny:["Happy birthday! Your cake has zero calories today. I checked. Trust me.","Congratulations on levelling up. No patch notes, just more cake.","Today you are legally allowed to be the main character. Act accordingly."],
