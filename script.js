@@ -225,3 +225,11 @@ document.querySelectorAll(".letter-drawer").forEach(drawer=>{
   if(opening){sound("ding");setTimeout(()=>paper.scrollIntoView({behavior:"smooth",block:"nearest"}),120);}
  });
 });
+
+/* Delegated controls keep the birthday message selector reliable on mobile browsers. */
+document.addEventListener("click", (event) => {
+  const button = event.target.closest(".wish-button");
+  if (!button) return;
+  const category = button.dataset.wish;
+  if (birthdayWishes[category]) showWish(category);
+});
