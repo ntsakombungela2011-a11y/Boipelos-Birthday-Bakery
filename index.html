@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="grain"></div>
-<header class="topbar"><a class="brand" href="#home"><span class="brand-mark">♡</span> boipelo's muffin bakery</a><span class="level-pill">★ HEAD BAKER</span></header>
+<header class="topbar"><a class="brand" href="#home"><span class="brand-mark">♡</span> boipelo's muffin bakery</a><div class="header-tools"><button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">🔊 Sound on</button><span class="level-pill">★ HEAD BAKER</span></div></header>
 <main>
 <section class="hero section" id="home">
 <div class="hero-copy"><p class="eyebrow"><span></span> TODAY'S SPECIAL: CHOCOLATE MUFFINS</p><h1>Hey, head baker.<br><em>It's your kitchen.</em></h1>
@@ -21,12 +21,12 @@
 </section>
 <div class="welcome-strip"><span>CHOCOLATEY</span><b>✳</b><span>FRESHLY BAKED</span><b>✳</b><span>MADE BY BOIPELO</span><b>✳</b><span>EXTRA LOVE</span></div>
 <section class="section game-section" id="game">
-<div class="game-heading"><p class="eyebrow">THE BIRTHDAY BAKE QUEST</p><h2>Let's make some<br><em>chocolate muffins.</em></h2><p>Complete each little kitchen challenge to unlock the next step. No rushing the chef.</p></div>
+<div class="game-heading"><p class="eyebrow">THE BIRTHDAY BAKE QUEST</p><h2>Let's make some<br><em>chocolate muffins.</em></h2><p>Follow the simple instructions on the left. Tap the big buttons, and the game will show you exactly what to do next.</p></div>
 <div class="progress-wrap"><div class="progress-label"><span id="stageLabel">STAGE 1 OF 5 · PREPARE</span><span id="progressText">0%</span></div><div class="progress-track"><div id="progressBar"></div></div></div>
 <div class="game-card">
 <div class="game-topline"><span id="stageNumber">01 / PREP</span><span class="score">★ <b id="score">0</b> POINTS</span></div>
 <div class="game-content">
-<div class="challenge-copy"><p class="challenge-kicker" id="challengeKicker">FIRST, GATHER YOUR INGREDIENTS</p><h3 id="challengeTitle">A baker needs supplies.</h3><p id="challengeText">Collect everything on the recipe card. Tap each ingredient to put it on your counter.</p><div class="task-counter" id="taskCounter">0 / 6 ingredients ready</div><div class="challenge-actions" id="challengeActions"></div></div>
+<div class="challenge-copy"><p class="challenge-kicker" id="challengeKicker">FIRST, GATHER YOUR INGREDIENTS</p><h3 id="challengeTitle">A baker needs supplies.</h3><p id="challengeText">Tap each ingredient below once to collect it. When all 6 are ready, press “Next step”.</p><div class="task-counter" id="taskCounter">0 / 6 ingredients ready</div><p class="how-to" id="howTo">STEP 1: Tap each ingredient button. That is all you need to do.</p><div class="challenge-actions" id="challengeActions"></div></div>
 <div class="kitchen-scene" id="kitchenScene">
 <div class="scene-label" id="sceneLabel">YOUR KITCHEN COUNTER</div>
 <div class="scene-object" id="sceneObject"><span>🥣</span></div>
